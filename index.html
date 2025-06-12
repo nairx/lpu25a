@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mu25a</title>
+    <style>
+      a {
+        text-decoration: none;
+        margin: 2px;
+        color: white;
+        padding: 3px;
+      }
+      iframe {
+        margin-top: 5px;
+        width: 100%;
+        border: none;
+        height: 600px;
+      }
+      .page {
+        background-color: blue;
+        width: 5px;
+        border-radius: 100%;
+      }
+  #divTitle{
+   text-align: center;
+  }
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <div id="divTitle"></div>
+      <hr />
+      <div>
+        <iframe name="tempFrm" src="temp1/index.html"></iframe>
+      </div>
+    </div>
+    <script>
+      str = "<b><a href='https://github.com/nairx/Mu25a/' target='_blank' class='page'>GH</a></b>";
+      for (let i = 1; i <= 50; i++) {
+        str += `<a href="temp${i}/index.html" target="tempFrm" class="page">${i}</a>`;
+      }
+      divTitle.innerHTML = str;
+    </script>
+  </body>
+</html>
