@@ -1,15 +1,20 @@
-//array methods
-const points = [2, 5, 3, 2, 1, 8];
-// points.forEach((value) => {
-//   console.log(value);
-// });
-// points.forEach((value, index) => {
-//   console.log(value,index);
-// });
-// points.forEach((value, index, arr) => {
-//   console.log(value, index, arr);
-// });
-points.forEach((a, b, c) => {
-//   console.log(c[b]);
-  console.log(a);
-});
+//objects
+const student = {
+  name: "Devesh",
+  age: 21,
+};
+console.log(student)
+console.log(student.name)
+console.log(student.age)
+student.city = 'Jalandhar'
+console.log(student)
+student.city = 'Amritsar'
+console.log(student)
+console.log(student.name)
+console.log(student["name"])
+delete student.city
+console.log(student)
+const keys = Object.keys(student)
+console.log(keys)
+const values = Object.values(student)
+console.log(values)

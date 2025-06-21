@@ -1,20 +1,22 @@
-//objects
-const student = {
-  name: "Devesh",
-  age: 21,
+//arrow function
+// function greet() {
+//   console.log("This is Regular Function");
+// }
+// greet()
+// const greet = 10
+//greet() - error because hoisting not applied
+// const greet = () => {
+//   console.log("This is Arrow Function");
+// };
+// greet()
+
+// const add = (a,b) => {
+//   return a + b;
+// };
+// const result = add(4, 5);
+// console.log(result)
+
+const add = (...args) => {
+  console.log(args)
 };
-console.log(student)
-console.log(student.name)
-console.log(student.age)
-student.city = 'Jalandhar'
-console.log(student)
-student.city = 'Amritsar'
-console.log(student)
-console.log(student.name)
-console.log(student["name"])
-delete student.city
-console.log(student)
-const keys = Object.keys(student)
-console.log(keys)
-const values = Object.values(student)
-console.log(values)
+add(4, 5, 6, 7, 4, 3);
