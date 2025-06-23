@@ -30,11 +30,11 @@
 //x > y ? console.log("x is greater") : console.log("y is greater");
 // x > y && console.log("x is greater");
 
-// let a
+// let a=0
 // let value = a || 10
 // console.log(value)
 
-let a
+let a=0
 let value = a ?? 10
 console.log(value)
 
