@@ -13,6 +13,10 @@ const showProducts = () => {
   console.log("***Product List***");
   console.log(str);
 };
+// const showProducts = () => {
+//   let r = document.getElementById("root");
+//   r.innerHTML = "Hello World";
+// };
 const addToCart = (id) => {
   cart = { ...cart, [id]: 1 };
 };
@@ -37,3 +41,5 @@ const orderValue = products.reduce((sum, value) => {
   return sum + value.price * (cart[value.id] ?? 0);
 }, 0);
 console.log(`Order Value:${orderValue}`);
+
+// showProducts()
