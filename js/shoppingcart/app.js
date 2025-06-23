@@ -5,18 +5,19 @@ const products = [
   { id: 2, name: "Product 2", price: 50 },
   { id: 3, name: "Product 3", price: 75 },
 ];
-const showProducts = () => {
-  let str = "";
-  products.map((value) => {
-    str += `${value.id}-${value.name}-$${value.price}\n`;
-  });
-  console.log("***Product List***");
-  console.log(str);
-};
 // const showProducts = () => {
-//   let r = document.getElementById("root");
-//   r.innerHTML = "Hello World";
+//   let str = "";
+//   products.map((value) => {
+//     str += `<li>${value.id}-${value.name}-$${value.price}</li>`;
+//   });
+//   // console.log("***Product List***");
+//   // console.log(str);
+//   document.getElementById(root).innerHTMNL = str;
 // };
+const showProducts = () => {
+  let r = document.getElementById("root");
+  r.innerHTML = "Hello World";
+};
 const addToCart = (id) => {
   cart = { ...cart, [id]: 1 };
 };
