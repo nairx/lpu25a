@@ -1,3 +1,4 @@
+//json
 // const student = {
 //   name: "Omil",
 //   age: 21,
