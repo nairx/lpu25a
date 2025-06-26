@@ -27,4 +27,5 @@ db.employees.find({
   $or: [{ salary: { $gt: 3000 }, department: { $eq: "IT" } }],
 });
 
+
 //Display the top two highest paid employees
