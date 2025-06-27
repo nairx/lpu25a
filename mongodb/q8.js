@@ -68,3 +68,41 @@ db.posts.aggregate([
   { $unwind: "$comments" },
   { $project: { _id: 0, post: 1, "comments.comment": 1 } },
 ]);
+
+db.marks.find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 });
+
+db.marks
+  .find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 })
+  .sort({ name: 1 });
+
+db.marks.find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 }).sort({ name: 1, term: 1 });
+
+db.marks.find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 }).sort({ term: 1 });
+
+db.marks.aggregate([
+    {$group:{_id:"$name",total:{$sum:"$score"}}}
+])
+
+
+db.marks.aggregate([
+    {$group:{_id:"$subject",total:{$sum:"$score"}}}
+])
+
+db.marks.aggregate([
+    {$group:{_id:"$term",total:{$sum:"$score"}}}
+])
+
+
+db.marks.aggregate([
+    {$group:{
+        _id:{name:"$name",subject:"$subject"},
+        total:{$sum:"$score"}
+    }}
+]).sort({_id:1})
+
+db.marks.aggregate([
+    {$group:{
+        _id:{term:"$term",name:"$name"},
+        Avg:{$avg:"$score"}
+    }}
+]).sort({_id:1})
