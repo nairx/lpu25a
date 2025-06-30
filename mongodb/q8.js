@@ -75,34 +75,115 @@ db.marks
   .find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 })
   .sort({ name: 1 });
 
-db.marks.find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 }).sort({ name: 1, term: 1 });
+db.marks
+  .find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 })
+  .sort({ name: 1, term: 1 });
 
-db.marks.find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 }).sort({ term: 1 });
+db.marks
+  .find({}, { _id: 0, name: 1, term: 1, subject: 1, score: 1 })
+  .sort({ term: 1 });
 
-db.marks.aggregate([
-    {$group:{_id:"$name",total:{$sum:"$score"}}}
-])
-
-
-db.marks.aggregate([
-    {$group:{_id:"$subject",total:{$sum:"$score"}}}
-])
+db.marks.aggregate([{ $group: { _id: "$name", total: { $sum: "$score" } } }]);
 
 db.marks.aggregate([
-    {$group:{_id:"$term",total:{$sum:"$score"}}}
-])
+  { $group: { _id: "$subject", total: { $sum: "$score" } } },
+]);
+
+db.marks.aggregate([{ $group: { _id: "$term", total: { $sum: "$score" } } }]);
+
+db.marks
+  .aggregate([
+    {
+      $group: {
+        _id: { name: "$name", subject: "$subject" },
+        total: { $sum: "$score" },
+      },
+    },
+  ])
+  .sort({ _id: 1 });
+
+db.marks
+  .aggregate([
+    {
+      $group: {
+        _id: { term: "$term", name: "$name" },
+        Avg: { $avg: "$score" },
+      },
+    },
+  ])
+  .sort({ _id: 1 });
+
+db.employees.aggregate([
+  { $project: { _id: 0, name: 1, dept: "$department" } },
+]);
+
+db.employees.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      salary: 1,
+      Grade: {
+        $cond: [{ $gt: ["$salary", 2000] }, "Grade A", "Grade B"],
+      },
+    },
+  },
+]);
+
+db.employees.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      salary: 1,
+      Grade: {
+        $cond: {
+          if: { $gt: ["$salary", 2000] },
+          then: "Grade A",
+          else: "Grade B",
+        },
+      },
+    },
+  },
+]);
+
+db.employees.updateMany({ department: "IT" }, { $set: { strSalary: "2500" } });
+
+db.employees.updateMany(
+  { department: "Admin" },
+  { $set: { strSalary: "1000" } }
+);
+
+db.employees.aggregate([
+  {$project:{
+    _id:0,
+    name:1,
+    department:1,
+    Sal:{$convert:{input:"$strSalary",to:"int"}}}},
+  { $group: { _id: "$department", total: { $sum: "$Sal" } } },
+]);
+
+db.employees.aggregate([
+  {$project:{
+    _id:0,
+    name:1,
+    department:1,
+    Sal:{$convert:{input:"$strSalary",to:"int"}}}},
+  { $group: { _id: "$department", total: { $sum: "$Sal" } } },
+  {$out:"depWiseSalary"}
+]);
 
 
-db.marks.aggregate([
-    {$group:{
-        _id:{name:"$name",subject:"$subject"},
-        total:{$sum:"$score"}
-    }}
-]).sort({_id:1})
+db.createView("depWiseSalaryView","employees",[
+  {$project:{
+    _id:0,
+    name:1,
+    salary:1,
+    department:1,
+    Sal:{$convert:{input:"$strSalary",to:"int"}}}},
+  { $group: { _id: "$department", total: { $sum: "$Sal" } } },
+]);
 
-db.marks.aggregate([
-    {$group:{
-        _id:{term:"$term",name:"$name"},
-        Avg:{$avg:"$score"}
-    }}
-]).sort({_id:1})
+db.depWiseSalaryView.drop()
+
+db.createView("viewName","collectionname",[])
