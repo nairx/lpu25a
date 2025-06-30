@@ -26,3 +26,16 @@ show dbs
 use mytestdb
 db.createCollection("customers")
 db.customers.insertOne({name:"John"})
+
+Check secondary servers. Check both the servers if data is replicated
+mongosh --port 270xx
+Secondary will start, can read but cannot write
+db.getMongo().setReadPref("secondary")  //or rs.secondaryOk()
+use mytestdb
+db.customers.find() – will work now
+
+mongosh --port 270xx
+Secondary will start, can read but cannot write
+db.getMongo().setReadPref("secondary")  //or rs.secondaryOk()
+use mytestdb
+db.customers.find() – will work now
