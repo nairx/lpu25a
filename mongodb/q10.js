@@ -16,3 +16,13 @@ rs.initiate({_id:"rs1",members:[{_id:0,host:"127.0.0.1:27018"},{_id:1,host:"127.
 
 rs.config()  //to check the config
 rs.status()
+
+Use mongosh command with the following connection string and the primary server will automatically get connected:
+
+
+mongosh "mongodb://localhost:27018,localhost:27019,localhost:27020/?replicaSet=rs1"
+
+show dbs
+use mytestdb
+db.createCollection("customers")
+db.customers.insertOne({name:"John"})
