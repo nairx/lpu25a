@@ -27,13 +27,15 @@ app.get("/", (req, res) => {
   res.json(products);
 });
 
-// app.post("/", (req, res) => {
-//   res.send(req.body);
-// });
-
-// app.delete("/", (req, res) => {
-//   res.send(req.body);
-// });
+app.delete("/:id", (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    products = products.filter((value) => value.id !== id);
+    res.json("Product deleted");
+  } catch (err) {
+    res.json({ message: "Something went wrong" });
+  }
+});
 
 app.patch("/", (req, res) => {
   res.send(req.body);
