@@ -29,11 +29,10 @@ const authenticate = (req, res, next) => {
   } catch (err) {
     return res.status(400).json({ message: "Invalid Token" });
   }
+};
 
 const authorize = (role) => {
-  return (req, res, next) => {
-
-  };
+  return (req, res, next) => {};
 };
 
 app.post("/login", (req, res) => {
