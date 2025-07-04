@@ -37,6 +37,3 @@ app.delete("/:id", (req, res) => {
   }
 });
 
-app.patch("/", (req, res) => {
-  res.send(req.body);
-});
