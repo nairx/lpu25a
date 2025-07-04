@@ -20,7 +20,18 @@ const users = [
 app.use(express.json());
 
 const authenticate = (req, res, next) => {
-    
+  try {
+    let token = req.headers.authorization;
+    token = token.split(" ")[1];
+    const user = jwt.verify(token, SECRET);
+    req.role = user.role;
+    next();
+  } catch (err) {
+    return res.status(400).json({ message: "Invalid Token" });
+  }
+
+  return res.json(token);
+  //return res.json({ message: "Access Denied" });
 };
 
 app.post("/login", (req, res) => {
