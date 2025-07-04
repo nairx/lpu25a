@@ -30,13 +30,9 @@ const authenticate = (req, res, next) => {
     return res.status(400).json({ message: "Invalid Token" });
   }
 
-  return res.json(token);
-  //return res.json({ message: "Access Denied" });
-};
-
 const authorize = (role) => {
   return (req, res, next) => {
-    
+
   };
 };
 
