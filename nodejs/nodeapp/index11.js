@@ -18,14 +18,14 @@ const users = [
   },
 ];
 app.use(express.json());
-app.get("/login", (req, res) => {
+app.post("/login", (req, res) => {
   const { email, pass } = req.body;
   const found = users.find(
     (user) => user.email === email && user.pass === pass
   );
   if (found) {
     const token = jwt.sign(found, SECRET, { expiresIn: "1h" });
-    res.status(200).json({ user: found }, { token });
+    res.status(200).json( {user:found, token });
   } else {
     res.status(403).json({ message: "Access Denied" });
   }
