@@ -8,6 +8,6 @@ const user = {
 const token = jwt.sign(user, SECRET, { expiresIn: "1h" });
 console.log(token)
 
-const user1 = jwt.verify(token,SECRET)
-console.log(user1)
+const decoded = jwt.verify(token,SECRET)
+console.log(decoded)
 
