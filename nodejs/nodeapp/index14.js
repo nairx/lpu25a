@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const SECRET = "sometext";
 const app = express();
+
 mongoose.connect("mongodb://localhost:27017/lpu").then(() => {
   app.listen(8080, () => {
     console.log("Server started");
@@ -21,7 +22,7 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 const userModel = mongoose.model("User", userSchema);
-
+const userRouter = express.Router();
 const authenticate = (req, res, next) => {
   try {
     let token = req.headers.authorization;
@@ -45,7 +46,7 @@ const authorize = (role) => {
   };
 };
 app.use(express.json());
-app.post("/register", async (req, res) => {
+userRouter.post("/register", async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
     const hashedpwd = await bcrypt.hash(password, 10);
@@ -63,7 +64,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.get("/users", authenticate, authorize("admin"), async (req, res) => {
+userRouter.get("/users", authenticate, authorize("admin"), async (req, res) => {
   try {
     const result = await userModel.find();
     res.status(200).json(result);
@@ -73,7 +74,7 @@ app.get("/users", authenticate, authorize("admin"), async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
@@ -98,3 +99,7 @@ app.post("/login", async (req, res) => {
     res.status(400).json({ message: "Something went wrong" });
   }
 });
+
+
+app.use("/api", userRouter);
+
