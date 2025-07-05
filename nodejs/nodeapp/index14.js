@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import express from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+const SECRET = "sometext";
 const app = express();
 mongoose.connect("mongodb://localhost:27017/lpu").then(() => {
   app.listen(8080, () => {
@@ -39,10 +41,36 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.get("/users", async (req, res) => {
+app.get("/users", authenticate, authorize("admin"), async (req, res) => {
   try {
     const result = await userModel.find();
     res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: "Something went wrong" });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        const userObj = {
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+        const token = jwt.sign(userObj, SECRET, { expiresIn: "1h" });
+        res.status(200).json({ userObj, token });
+      } else {
+        res.status(400).json({ message: "Invalid password" });
+      }
+    } else {
+      res.status(400).json({ message: "User not found" });
+    }
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "Something went wrong" });
