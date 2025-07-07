@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema(
     name: { type: String },
     email: { type: String, unique: true },
     password: { type: String },
-    role: { type: String },
+    role: { type: String, default: "user" },
   },
   { timestamps: true }
 );
@@ -64,6 +64,34 @@ userRouter.post("/register", async (req, res) => {
   }
 });
 
+userRouter.patch("/:id", authenticate, authorize("admin"), async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const result = await userModel.findByIdAndUpdate(id, body);
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(200).json("Something went wrong");
+  }
+});
+
+userRouter.delete(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+      const result = await userModel.findByIdAndDelete(id);
+      res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  }
+);
+
 userRouter.get("/users", authenticate, authorize("admin"), async (req, res) => {
   try {
     const result = await userModel.find();
@@ -100,6 +128,4 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-
 app.use("/api", userRouter);
-
